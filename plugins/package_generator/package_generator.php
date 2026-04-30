@@ -44,7 +44,7 @@ if (is_dir(GIT_PATH . CORE_FOLDER) && is_dir(GIT_PATH . THEMEFOLDER) && is_dir(G
 	}
 
 	$_resident_files[] = CORE_FOLDER;
-	$_resident_files = array_merge($_resident_files, getFiles(CORE_SERVERPATH, array_merge(stdExclude, array('setup', 'version.php'))));
+	$_resident_files = array_merge($_resident_files, getFiles(SERVERPATH . '/' . CORE_FOLDER, array_merge(stdExclude, array('setup', 'version.php'))));
 
 	$_special_files[] = CORE_FOLDER . '/version.php';
 	$_special_files[] = CORE_FOLDER . '/setup';
