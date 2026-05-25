@@ -70,11 +70,18 @@ class openAdmin extends _Administrator {
 	 * "return to sender" without giving the XSRF error
 	 */
 	static function XSRF_access() {
-		$uri = explode('?', getRequestURI());
+		$uri = explode('?', getRequestURI())[0];
+		switch (stripSuffix(basename($uri))) {
+			case 'cacheDBImages':
+			case 'refresh-metadata':
+				$uri = getAdminLink('admin.php');
+				break;
+		}
+
 		npg_session_destroy();
 		header("HTTP/1.0 302 Found");
 		header("Status: 302 Found");
-		header('Location: ' . $uri[0]);
+		header('Location: ' . $uri);
 		exit();
 	}
 
