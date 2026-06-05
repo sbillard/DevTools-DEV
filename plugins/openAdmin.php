@@ -322,6 +322,7 @@ if (!npg_loggedin()) {
 
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
 	npgFilters::register('admin_close', 'openAdmin::session_destroy', 0);
+	npgFilters::register('software_information', 'openAdmin::session_destroy', 0);
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
 	npgFilters::register('admin_XSRF_access', 'openAdmin::XSRF_access', 0);
 
