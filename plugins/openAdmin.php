@@ -318,11 +318,12 @@ class openAdmin extends _Administrator {
 
 if (!npg_loggedin()) {
 	global $_conf_vars;
+	npg_session_start();
 	$_SESSION['navigation_tabs'] = array();
 
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
-	npgFilters::register('admin_close', 'openAdmin::session_destroy', 0);
-	npgFilters::register('software_information', 'openAdmin::session_destroy', 0);
+	npgFilters::register('admin_tabs', 'openAdmin::session_destroy', 0);
+	npgFilters::register('load_theme_script', 'openAdmin::session_destroy', 0);
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
 	npgFilters::register('admin_XSRF_access', 'openAdmin::XSRF_access', 0);
 
