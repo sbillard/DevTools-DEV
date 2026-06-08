@@ -310,8 +310,11 @@ class openAdmin extends _Administrator {
 		$_npgMutex->unlock();
 	}
 
-	static function session_destroy() {
+	static function session_destroy($param) {
+		$s = $_SESSION;
 		npg_session_destroy();
+		$_SESSION = $s;
+		return $param;
 	}
 
 }
