@@ -1,0 +1,68 @@
+<?php include ("inc-header.php"); ?>
+
+<div id="breadcrumbs">
+	<h2><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php echo gettext('Home'); ?>"><?php echo gettext('Home'); ?></a> &raquo; <a href="<?php echo getCustomPageURL('gallery'); ?>" title="<?php echo gettext('Gallery Index'); ?>"><?php echo gettext('Gallery Index'); ?></a> &raquo; <?php printParentBreadcrumb('', ' » ', ' » '); ?> <?php printAlbumTitle(true); ?></h2>
+</div>
+</div> <!-- close #header -->
+<div id="content">
+	<div id="main"<?php if ($zpmin_switch) echo ' class="switch"'; ?>>
+		<div id="albums-wrap">
+			<?php while (next_album()): ?>
+				<div class="album-maxspace">
+					<a class="thumb-link" href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo getNumAlbums() . ' ' . gettext('subalbums') . ' / ' . getNumImages() . ' ' . gettext('images') . ' - ' . truncate_string(getBareAlbumDesc(), 300, '...'); ?>">
+						<?php
+						if ($zpmin_thumb_crop) {
+							printCustomAlbumThumbImage(getAnnotatedAlbumTitle(), array('width' => $zpmin_album_thumb_size, 'height' => $zpmin_album_thumb_size, 'cw' => $zpmin_album_thumb_size, 'ch' => $zpmin_album_thumb_size));
+						} else {
+							printCustomAlbumThumbImage(getAnnotatedAlbumTitle(), array('size' => $zpmin_album_thumb_size));
+						}
+						?>
+						<span class="album-title"><?php echo html_encodeTagged(shortenContent(getAlbumTitle(), 25, '...')); ?></span>
+					</a>
+				</div>
+			<?php endwhile; ?>
+		</div>
+		<div id="thumbs-wrap">
+			<?php while (next_image()): ?>
+				<div class="thumb-maxspace">
+					<a class="thumb-link" href="<?php echo html_encode(getImageURL()); ?>" title="<?php echo html_encode(getBareImageTitle()); ?>"><?php printImageThumb(getAnnotatedImageTitle()); ?></a>
+					<?php if (($zpmin_colorbox) && (!$_current_image->isVideo())) { ?>
+						<div class="cblinks">
+							<a class="thickbox" href="<?php echo html_encode(getUnprotectedImageURL()); ?>" title="<?php echo html_encode(getBareImageTitle()); ?>"><img src="<?php echo $_themeroot; ?>/images/zoom.png" /></a>
+							<a href="<?php echo html_encode(getImageURL()); ?>" title="<?php echo html_encode(getBareImageTitle()); ?>"><img src="<?php echo $_themeroot; ?>/images/details.png" /></a>
+						</div>
+					<?php } ?>
+				</div>
+			<?php endwhile; ?>
+		</div>
+		<?php if ((hasPrevPage()) || (hasNextPage())) { ?>
+			<div id="pagination">
+				<?php printPageListWithNav("← " . gettext("prev"), gettext("next") . " →"); ?>
+			</div>
+		<?php } ?>
+		<?php
+		if (function_exists('printAddToFavorites')) {
+			echo '<div class="section">';
+			printAddToFavorites($_current_album);
+			echo '</div>';
+		}
+		?>
+		<?php if (simpleMap::mapPlugin()) { ?><div class="section"><?php
+			simpleMap::printMap();
+			?></div><?php } ?>
+		<?php if (function_exists('printRating')) { ?><div class="section"><?php printRating(); ?></div><?php } ?>
+		<?php if (function_exists('printCommentForm')) { ?><div class="section"><?php printCommentForm(); ?></div><?php } ?>
+	</div>
+	<div id="sidebar"<?php if ($zpmin_switch) echo ' class="switch"'; ?>>
+		<div class="sidebar-divide">
+			<h3><?php printAlbumTitle(true); ?></h3>
+			<div class="sidebar-section"><?php printAlbumDate('', '', null, true); ?></div>
+			<?php if ((getAlbumDesc()) || (npg_loggedin())) { ?><div class="sidebar-section"><?php printAlbumDesc(true); ?></div><?php } ?>
+			<?php if ((getTags()) || (npg_loggedin())) { ?><div class="sidebar-section"><?php printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', ''); ?></div><?php } ?>
+			<?php if (function_exists('printSlideShowLink')) { ?><div class="sidebar-section"><div class="slideshow-link"><?php printSlideShowLink(gettext('View Slideshow')); ?></div></div><?php } ?>
+		</div>
+		<div class="sidebar-section"><?php include ("inc-sidemenu.php"); ?></div>
+	</div>
+</div>
+
+<?php include ("inc-footer.php"); ?>

@@ -12,7 +12,7 @@ require_once(__DIR__ . '/functions.php');
 
 class ThemeOptions {
 
-	function __construct($setDefaultOptions) {
+	function __construct() {
 
 		$me = basename(__DIR__);
 		setThemeOptionDefault('Theme_logo', 'A multi-media oriented Content Management System');
