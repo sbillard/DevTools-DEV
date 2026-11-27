@@ -71,6 +71,7 @@ function releaseNotesPublish($before, $object, $prefix = NULL) {
 
 function releaseNotesExecute($object) {
 	if (isset($_POST['publishNotes'])) {
+		$object->setPublishDate(date('Y-m-d H:i:s'));
 		$f = fopen(SERVERPATH . '/docs/release_notes.htm', 'w');
 		$h = '<!DOCTYPE html>
 <html lang="en">
